@@ -10,8 +10,7 @@ mongoose.connect('mongodb://localhost:27017/Control_Obras')
 
         	// Creacion del servidor
         	app.listen(process.env.PORT, () => {
-        		console.log("Server engine at url: localhost:",process.env.PORT);
+        		console.log(`Server engine at url: localhost:${process.env.PORT}`);
         	});
-
         })
         .catch(err => console.log(err));
