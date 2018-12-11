@@ -1,9 +1,9 @@
 'use strict'
 
-var express = require('express');
-var bodyParser = require('body-parser');
+const express = require('express');
+const bodyParser = require('body-parser');
 
-var app = express();
+const app = express();
 
 // cargar archivos rutas
 var usuario_routes = require('./routes/usuario');
