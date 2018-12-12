@@ -8,6 +8,7 @@ var app = express();
 // cargar archivos rutas
 var usuario_routes = require('./routes/usuario');
 var pdf_routes = require('./routes/pdf');
+var project_routes = require('./routes/project');
 
 // middlewares
 app.use(bodyParser.urlencoded({extended:false}));
@@ -25,6 +26,7 @@ app.use((req, res, next) => {
 // rutas
 app.use('/usuario', usuario_routes);
 app.use('/pdf', pdf_routes);
+app.use('/', project_routes);
 
 // exportar
 module.exports = app;

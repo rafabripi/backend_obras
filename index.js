@@ -13,6 +13,5 @@ mongoose.connect('mongodb://localhost:27017/Control_Obras')
         	app.listen(port, () => {
         		console.log("Server engine at url: localhost:3900");
         	});
-
         })
         .catch(err => console.log(err));
