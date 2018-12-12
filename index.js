@@ -2,7 +2,6 @@
 require('./server/config');
 var mongoose = require('mongoose');
 var app = require('./app');
-var port = process.env.PORT;
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/Control_Obras')
@@ -10,8 +9,8 @@ mongoose.connect('mongodb://localhost:27017/Control_Obras')
         	console.log("Conexión a la base de datos Control_Obras...");
 
         	// Creacion del servidor
-        	app.listen(port, () => {
-        		console.log(`Server engine at url: localhost:${port}`);
+        	app.listen(process.env.PORT, () => {
+        		console.log("Server engine at url: localhost:",process.env.PORT);
         	});
         })
         .catch(err => console.log(err));
