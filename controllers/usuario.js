@@ -1,21 +1,25 @@
 'use strict'
 var Usuario = require ('../models/usuarios');
+const bcrypt = require('bcrypt');
+const _= require('underscore');
 
 var controller = {
     saveUser: function (req, res) {
-        let usuario = new Usuario();
+
         let params = req.body;
-
-        usuario.user = params.user;
-        usuario.nombre = params.nombre;
-        usuario.apellidos = params.apellidos;
-        usuario.pass = params.pass;
-        usuario.tipo = params.tipo;
-
+        let usuario = new Usuario({
+            user : params.user,
+            nombre : params.nombre,
+            apellidos : params.apellidos,
+            pass : bcrypt.hashSync(params.pass, 10),
+            tipo : params.tipo
+        });
+        
         usuario.save((err, usuarioStored)=>{
             if (err) {
                 return res.status(500).send({
-                    message: "Error, no se guardo el usuario"
+                    message: "Error, no se guardo el usuario",
+                    err
                 });
             }
             if (!usuarioStored) {
@@ -41,6 +45,10 @@ var controller = {
         });
     },
     getUsers: function (req, res) {
+        let being = req.query.being || 0;
+        being = Number (being);
+        let end = req.query.end || 5;
+        end = Number(end);
         /**
         *con el metodo find podemos hacer consultar como con where
         *por ejemplo Usuario.find({nombre: 'Rafael'})
@@ -49,25 +57,33 @@ var controller = {
         *---------------------------------------
         *el metodo short ordena la consulta
          */
-        Usuario.find({}).sort('').exec((err, usuarios)=>{
-            if (err) {
-                return res.status(500).send({
-                    message: "Error interno"
-                });
-            }
-            if (!usuarios) {
-                return res.status(404).send({
-                    message: "usuarios no encontrados"
-                });
-            }
-            return res.status(200).send({usuarios});
-        });
+        Usuario.find({}, 'nombre apellidos tipo')
+                    .skip(being)
+                    .limit(end)
+                    .exec((err, usuarios)=>{
+                        if (err) {
+                            return res.status(500).send({
+                                message: "Error interno"
+                            });
+                        }
+                        if (!usuarios) {
+                            return res.status(404).send({
+                                message: "usuarios no encontrados"
+                            });
+                        }
+                        Usuario.count({}, (err, result)=>{
+                            if (err) {
+                                return res.status(500).json({message: 'El conteo fallo'});
+                            }
+                            return res.status(200).send({usuarios, conteo: result});
+                        });
+                    });
     },
     updateUser: function (req, res) {
         let usuarioId = req.params.id;
-        let update = req.body;
+        let update = _.pick(req.body, [tipo, estado]);
 
-        Usuario.findByIdAndUpdate(usuarioId, update, {new: true}, (err, usuarioUpdate)=>{
+        Usuario.findByIdAndUpdate(usuarioId, update, {new: true, runValidators: true}, (err, usuarioUpdate)=>{
             if (err) {
                return res.status(500).send({
                 message: "Error interno"
