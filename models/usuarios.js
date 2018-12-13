@@ -8,8 +8,8 @@ var UsuariosSchema = Schema({
     nombre: String,
     apellidos: String,
     pass: {type: String, required: [true, 'Contraseña requerida']},
-    tipo: {type: String, enum: {values:['Normal', 'Admnistrador'], message: '{VALUE} NO es un tipo valido'}},
-    estado: Boolean
+    tipo: {type: String, default: 'Normal', enum: {values:['Normal', 'Administrador'], message: '{VALUE} NO es un tipo valido'}},
+    estado: {type: Boolean, default: true}
 });
 
 UsuariosSchema.methods.toJSON = function () {

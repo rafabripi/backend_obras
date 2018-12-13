@@ -1,6 +1,7 @@
 'use strict'
 var Usuario = require ('../models/usuarios');
 const bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
 const _= require('underscore');
 
 var controller = {
@@ -57,7 +58,7 @@ var controller = {
         *---------------------------------------
         *el metodo short ordena la consulta
          */
-        Usuario.find({}, 'nombre apellidos tipo')
+        Usuario.find({estado: true}, 'nombre apellidos tipo')
                     .skip(being)
                     .limit(end)
                     .exec((err, usuarios)=>{
@@ -71,7 +72,7 @@ var controller = {
                                 message: "usuarios no encontrados"
                             });
                         }
-                        Usuario.count({}, (err, result)=>{
+                        Usuario.countDocuments({estado: true}, (err, result)=>{
                             if (err) {
                                 return res.status(500).json({message: 'El conteo fallo'});
                             }
@@ -81,17 +82,19 @@ var controller = {
     },
     updateUser: function (req, res) {
         let usuarioId = req.params.id;
-        let update = _.pick(req.body, [tipo, estado]);
+        let update = _.pick(req.body, ['tipo']);
 
         Usuario.findByIdAndUpdate(usuarioId, update, {new: true, runValidators: true}, (err, usuarioUpdate)=>{
             if (err) {
                return res.status(500).send({
-                message: "Error interno"
+                message: "Error interno",
+                err
                });
             }
             if (!usuarioUpdate) {
-                return res.status(404).send({
-                    message: "Data error"
+                return res.status(404).json({
+                    message: "Data error",
+                    err
                 });
             }
             return res.status(200).send({
@@ -104,16 +107,76 @@ var controller = {
         Usuario.findByIdAndRemove(usuarioId, (err, usuarioDelete)=>{
             if (err) {
                 return res.status(500).send({
-                    message: 'Error interno'
+                    message: 'Error interno',
+                    err
                 });
             }
             if (!usuarioDelete) {
                 return res.status(404).send({
-                    message: 'Data Error'
+                    message: 'Data Error: usuario no encontrado',
+                    err
                 });
             }
             return res.status(200).send({
                 usuario: usuarioDelete
+            });
+        });
+    },
+    desactivedUser: function (req, res) {
+        let userId = req.params.id;
+        let update = _.pick(req.body, ['estado']);        
+
+        Usuario.findByIdAndUpdate(userId, update, {new: true, runValidators: true}, (err, usuarioUpdate)=>{
+            if (err) {
+               return res.status(500).send({
+                message: "Error interno",
+                err
+               });
+            }
+            if (!usuarioUpdate) {
+                return res.status(404).json({
+                    message: "Data error",
+                    err
+                });
+            }
+            return res.status(200).send({
+                usuario: usuarioUpdate
+            });
+        });
+    },
+    login: function (req, res) {
+        let userData = req.body;
+
+        Usuario.findOne({user: userData.user}, (err, usuarioDB)=>{
+            if (err) {
+                return res.status(500).json({
+                    message: 'Internal error', 
+                    er
+                });
+            }
+            if (!usuarioDB) {
+                return res.status(404).json({
+                    message: 'Data error: usuario no encontrado',
+                    err
+                });
+            }
+            if (!bcrypt.compareSync(userData.pass, usuarioDB.pass)) {
+                return res.status(404).json({
+                    message: 'Data error: pass no encontrado',
+                    err
+                })
+            }
+
+            let token = jwt.sign(
+                {usuario: userData},
+                process.env.SEED,
+                process.env.EXP_TOKEN
+            );
+
+            return res.status(200).json({
+                ok: true,
+                usuario: usuarioDB,
+                token
             });
         });
     }
