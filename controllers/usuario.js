@@ -1,5 +1,6 @@
 'use strict'
 var Usuario = require ('../models/usuarios');
+
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 const _= require('underscore');
