@@ -1,6 +1,5 @@
 'use strict'
 var Usuario = require ('../models/usuarios');
-
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 const _= require('underscore');
@@ -152,7 +151,7 @@ var controller = {
             if (err) {
                 return res.status(500).json({
                     message: 'Internal error', 
-                    er
+                    err
                 });
             }
             if (!usuarioDB) {
@@ -169,9 +168,9 @@ var controller = {
             }
 
             let token = jwt.sign(
-                {usuario: userData},
+                {usuario: usuarioDB},
                 process.env.SEED,
-                process.env.EXP_TOKEN
+                {expiresIn: process.env.EXP_TOKEN}
             );
 
             return res.status(200).json({
