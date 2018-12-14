@@ -19,16 +19,13 @@ let verificarToken = (req, res, next) => {
 
 let verificarAdmin = (req, res, next) => {
     let typeUser = req.usuario.tipo;
-    if (typeUser == 'Administrador') {
-        res.status(200).json({
-            message: 'Admin=true'
-        });
+    if (typeUser === 'Administrador') {
+        next();
     }else{
         return res.status(403).json({
             message: "El usuario no es administrador"
         });
     }
-    next();
 }
 
 module.exports = {verificarToken, verificarAdmin};
