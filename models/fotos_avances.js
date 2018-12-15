@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var FotosSchema = Schema({
+    archivo: String,
     nombre: String,
     fecha: Date,
     clave_municipalEx: String 

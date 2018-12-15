@@ -1,12 +1,12 @@
 'use strict'
-var express = require ('express');
-var PdfController = require ('../controllers/pdfs');
+var express = require('express');
+var imgController = require('../controllers/fotos_avances');
 var router = express.Router();
 
 //middelware de subida de archivos
 const fileUpload = require('express-fileupload');
 var fileUploadMiddleware = fileUpload()
 
-router.put('/savePdf', fileUploadMiddleware, PdfController.savePdf);
+router.put('/saveImg', fileUploadMiddleware, imgController.saveImg);
 
 module.exports = router;
