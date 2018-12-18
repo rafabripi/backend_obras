@@ -1,7 +1,7 @@
 {
   "name": "api-rest-nodejs",
   "version": "1.0.0",
-  "description": "Api rest de prueba para el curso Master de JS",
+  "description": "API REST para sistema de obras",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

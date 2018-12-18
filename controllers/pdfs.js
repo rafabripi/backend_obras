@@ -3,6 +3,9 @@ var Pdfs = require ('../models/pdfs');
 
 var controller = {
     savePdf: function (req, res) {
+        let pdf = new Pdfs();
+        let params = req.body;
+
         if (!req.files) {
             return res.status(404).json({
                 ok: false,
@@ -21,21 +24,48 @@ var controller = {
                 message: 'El archivo pdf no tiene un formato valido, las extensiones permitidas son: "' + extValidas.join(', ') + '", se recibio: ' + pdfExt
             });
         }
-            pdfUp.mv(`uploads/pdfs/${pdfUp.name}`, (err) => {
-                if (err){
-                  return res.status(500).json({
-                        ok: false,
-                        message: "Error al guardar",
+
+        
+
+        //renombrar archivo para guardar, se puede usar el id de la obra o del checklist
+        //para conformar el nombre del archivo
+        let newName = `${params.clave_municipalEx}-${ new Date().getMilliseconds()}.${pdfExt}`
+
+        pdfUp.mv(`uploads/pdfs/${newName}`, (err) => {
+            if (err){
+                return res.status(500).json({
+                    ok: false,
+                    message: "Error al guardar",
+                    err
+                });
+            }
+
+            //llenar parametros del modelo con la info del request
+            pdf.nombre = newName;
+            pdf.tipo_checklist = params.tipo_checklist;
+            pdf.numero_contrato = params.numero_contrato;
+            pdf.clave_municipalEx = params.clave_municipalEx;
+
+            pdf.save((err, pdfStored)=>{
+                if (err) {
+                    return res.status(500).send({
+                        message: "Error interno",
                         err
                     });
                 }
-                res.json({
-                    ok: true,
-                    message: 'File uploaded!'
-                });
-              });
-        
+                if (!pdfStored) {
+                    return res.status(404).send({
+                        message: "Data error"
+                    });
+                }
 
+                res.status(200).json({
+                    ok: true,
+                    message: 'File uploaded!',
+                    pdf: pdf
+                });
+            });
+        });
     }
 }
 module.exports = controller;
