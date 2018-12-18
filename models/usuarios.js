@@ -12,6 +12,7 @@ var UsuariosSchema = Schema({
     estado: {type: Boolean, default: true}
 });
 
+//metodo de seguridad para evitar que al regresar la informacion del usuario se muestre la pass.
 UsuariosSchema.methods.toJSON = function () {
     let user = this;
     let userObject = user.toObject();
@@ -20,6 +21,5 @@ UsuariosSchema.methods.toJSON = function () {
     return userObject;
 }
 
-UsuariosSchema.plugin(uniqueValidator, {message: '{PATH} Hallo este campo debe ser unico'});
+UsuariosSchema.plugin(uniqueValidator, {message: '{PATH} Este campo debe ser unico'});
 module.exports = mongoose.model('Usuario', UsuariosSchema);
-//Clase219 crear modelos

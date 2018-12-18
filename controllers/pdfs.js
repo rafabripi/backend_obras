@@ -1,7 +1,16 @@
 'use strict'
 var Pdfs = require ('../models/pdfs');
+const fs = require ('fs');
+const path = require ('path');
 
 var controller = {
+    borrarArchivo: function (archivoName) {
+        let pathArchivoLocal = path.resolve(__dirname, `../uploads/pdfs/${archivoName}`)
+        if (fs.existsSync(pathArchivoLocal)) {
+            fs.unlink(pathArchivoLocal);
+        }
+    },
+
     savePdf: function (req, res) {
         let pdf = new Pdfs();
         let params = req.body;
@@ -13,7 +22,7 @@ var controller = {
             });
         }
 
-        let pdfUp = req.files.archivo;
+        let pdfUp = req.files.archivo;        
         let pdfNameSplit = pdfUp.name.split('.');
         let pdfExt = pdfNameSplit[1];
         let extValidas = ['pdf', 'PDF'];
@@ -25,11 +34,14 @@ var controller = {
             });
         }
 
-        
-
         //renombrar archivo para guardar, se puede usar el id de la obra o del checklist
         //para conformar el nombre del archivo
-        let newName = `${params.clave_municipalEx}-${ new Date().getMilliseconds()}.${pdfExt}`
+
+        //ajustar nombre de clave municipal: Se reemplazan las diagonales por guion medio
+        //debido a que produce errores al guardar el pdf
+        let nombrePdf_claveM = params.clave_municipalEx.replace('/', '-');
+
+        let newName = `${nombrePdf_claveM}-${params.tipo_checklist}.${pdfExt}`
 
         pdfUp.mv(`uploads/pdfs/${newName}`, (err) => {
             if (err){
@@ -54,11 +66,11 @@ var controller = {
                     });
                 }
                 if (!pdfStored) {
+                    controller.borrarArchivo(pdfStored.nombre);
                     return res.status(404).send({
                         message: "Data error"
                     });
                 }
-
                 res.status(200).json({
                     ok: true,
                     message: 'File uploaded!',
@@ -68,4 +80,5 @@ var controller = {
         });
     }
 }
+
 module.exports = controller;

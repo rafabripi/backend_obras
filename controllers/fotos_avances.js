@@ -1,8 +1,20 @@
 'use strict'
 var Img = require('../models/fotos_avances');
+const fs = require ('fs');
+const path = require ('path');
 
 var controller = {
+    borrarArchivo: function (archivoName) {
+        let pathArchivoLocal = path.resolve(__dirname, `../uploads/imgs/${archivoName}`)
+        if (fs.existsSync(pathArchivoLocal)) {
+            fs.unlink(pathArchivoLocal);
+        }
+    },
+
     saveImg: function (req, res) {
+        let img = new Img();
+        let params = req.body;
+
         if (!req.files) {
             return res.status(404).json({
                 ok: false,
@@ -24,7 +36,12 @@ var controller = {
 
         //renombrar archivo para guardar, se puede usar el id de la obra o del checklist
         //para conformar el nombre del archivo
-        let newName = `${imgNameSplit[0]}-${ new Date().getMilliseconds()}.${imgExt}`
+
+        //ajustar nombre de clave municipal: Se reemplazan las diagonales por guion medio
+        //debido a que produce errores al guardar el pdf
+        let nombreImg_ClaveM = params.clave_municipalEx.replace('/', '-');
+
+        let newName = `${nombreImg_ClaveM}-${ new Date().getMilliseconds()}.${imgExt}`
 
         imgUp.mv(`uploads/imgs/${newName}`, (err)=>{
             if (err) {
@@ -34,9 +51,31 @@ var controller = {
                     err
                 });
             }
-            return res.status(200).json({
-                ok: true,
-                message: 'File uploaded'
+
+            //llenar parametros del modelo con la info del request
+
+            img.nombre = newName;
+            img.fecha = params.fecha;
+            img.clave_municipalEx = params.clave_municipalEx;
+
+            img.save((err, imgStored)=>{
+                if (err) {
+                    return res.status(500).send({
+                        message: "Error interno",
+                        err
+                    });
+                }
+                if (!imgStored) {
+                    controller.borrarArchivo(imgStored.nombre);
+                    return res.status(404).send({
+                        message: "Data error"
+                    });
+                }
+                res.status(200).json({
+                    ok: true,
+                    message: 'File uploaded',
+                    img: img
+                });
             });
         });
     }
