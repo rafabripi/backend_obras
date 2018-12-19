@@ -6,6 +6,7 @@ var Schema = mongoose.Schema;
 var FotosSchema = Schema({
     nombre: {type: String, require: true, unique: true},
     fecha: Date,
+    checklist: String,
     clave_municipalEx: String 
 });
 

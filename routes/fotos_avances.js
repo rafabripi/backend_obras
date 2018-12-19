@@ -8,5 +8,6 @@ const fileUpload = require('express-fileupload');
 var fileUploadMiddleware = fileUpload()
 
 router.put('/saveImg', fileUploadMiddleware, imgController.saveImg);
+router.get('/getImg/:clave/:checklist', imgController.getImg);
 
 module.exports = router;

@@ -40,8 +40,9 @@ var controller = {
         //ajustar nombre de clave municipal: Se reemplazan las diagonales por guion medio
         //debido a que produce errores al guardar el pdf
         let nombreImg_ClaveM = params.clave_municipalEx.replace('/', '-');
+        let nombreImg_CheckL = params.checklist.replace('/', '-');
 
-        let newName = `${nombreImg_ClaveM}-${ new Date().getMilliseconds()}.${imgExt}`
+        let newName = `${nombreImg_ClaveM}-${nombreImg_CheckL}-${ new Date().getMilliseconds()}.${imgExt}`
 
         imgUp.mv(`uploads/imgs/${newName}`, (err)=>{
             if (err) {
@@ -52,10 +53,10 @@ var controller = {
                 });
             }
 
-            //llenar parametros del modelo con la info del request
-
+            //llenar parametros del modelo con la info que llega del request
             img.nombre = newName;
             img.fecha = params.fecha;
+            img.checklist = params.checklist;
             img.clave_municipalEx = params.clave_municipalEx;
 
             img.save((err, imgStored)=>{
@@ -78,6 +79,14 @@ var controller = {
                 });
             });
         });
+    },
+
+    getImg: function (req, res) {
+        let params = req.body;
+        // clave_municipalEx
+        // checklist
+        
+
     }
 }
 
