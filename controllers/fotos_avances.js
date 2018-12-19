@@ -81,12 +81,27 @@ var controller = {
         });
     },
 
+    getImgs: function (req, res) {
+        //metodos para query de mongoose: find, findOne, where,
+        Img.find({'clave_municipalEx': '1', 'checklist': 'estimacion-2'}, 'nombre', function (err, result) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error query',
+                    err
+                });
+            }
+            res.status(200).json({
+                ok: true,
+                result: result
+            });
+        });
+    },
+
     getImg: function (req, res) {
         let params = req.body;
-        // clave_municipalEx
-        // checklist
-        
-
+        let imgReq = params.nombre;
+        let imgPath = path.resolve(__dirname, `../uploads/imgs/${imgReq}`);
+        res.sendFile(imgPath);
     }
 }
 

@@ -20,4 +20,3 @@ var ObrasSchema = Schema({
 });
 
 module.exports = mongoose.model('Obra', ObrasSchema);
-//Clase219 crear modelos
