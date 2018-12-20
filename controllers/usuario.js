@@ -93,10 +93,10 @@ var controller = {
             }
             if (!usuarioUpdate) {
                 return res.status(404).json({
-                    message: "Data error",
-                    err
+                    message: "Data error"
                 });
             }
+            
             return res.status(200).send({
                 usuario: usuarioUpdate
             });

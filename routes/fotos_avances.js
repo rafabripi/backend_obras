@@ -1,16 +1,17 @@
 'use strict'
 var express = require('express');
 var imgController = require('../controllers/fotos_avances');
-const { verficarImgToken } = require('../server/middelwares/autenticacion');
+const { verficarImgToken, verificarToken } = require('../server/middelwares/autenticacion');
 var router = express.Router();
 
 //middelware de subida de archivos
 const fileUpload = require('express-fileupload');
-var fileUploadMiddleware = fileUpload()
+var fileUploadMiddleware = fileUpload();
 
-router.put('/saveImg', fileUploadMiddleware, imgController.saveImg);
-router.get('/getImgs', imgController.getImgs);
+//se probara si funciona mandar dos middelware en un arreglo 
+router.put('/saveImg', [fileUploadMiddleware, verificarToken], imgController.saveImg);
+router.get('/getImgs', verificarToken, imgController.getImgs);
 router.get('/getImg', verficarImgToken, imgController.getImg);
-router.delete('/delFile/:nombre', imgController.delFile);
+router.delete('/delFile/:nombre', verificarToken, imgController.delFile);
 
 module.exports = router;
