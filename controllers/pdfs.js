@@ -4,10 +4,37 @@ const fs = require ('fs');
 const path = require ('path');
 
 var controller = {
-    borrarArchivo: function (archivoName) {
+    delFile: function (req, res) {
+        let params = req.body;
+        let archivoName = params.nombre;
         let pathArchivoLocal = path.resolve(__dirname, `../uploads/pdfs/${archivoName}`)
         if (fs.existsSync(pathArchivoLocal)) {
+            //si el archivo existe elimina el archivo
             fs.unlink(pathArchivoLocal);
+
+            Pdfs.findByIdAndRemove(archivoId, (err, archivoDel)=>{
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        message: 'Error interno',
+                        err
+                    });
+                }
+                if (!archivoDel) {
+                    return res.status(404).send({
+                        message: 'Data Error: archivo no encontrado',
+                        err
+                    });
+                }
+                return res.status(200).json({
+                    archivo: archivoDel
+                });
+            });
+        }else{
+            return res.status(404).json({
+                ok: false,
+                message: 'No se encontro el archivo'
+            });
         }
     },
 

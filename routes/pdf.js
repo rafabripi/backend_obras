@@ -8,5 +8,6 @@ const fileUpload = require('express-fileupload');
 var fileUploadMiddleware = fileUpload()
 
 router.put('/savePdf', fileUploadMiddleware, PdfController.savePdf);
+router.delete('/delFile/:nombre', PdfController.delFile);
 
 module.exports = router;

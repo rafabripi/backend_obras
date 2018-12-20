@@ -4,10 +4,40 @@ const fs = require ('fs');
 const path = require ('path');
 
 var controller = {
-    borrarArchivo: function (archivoName) {
-        let pathArchivoLocal = path.resolve(__dirname, `../uploads/imgs/${archivoName}`)
+    delFile: function (req, res) {
+        let params = req.body;
+        let archivoName = params.nombre;
+        let archivoId= params.id;
+        let pathArchivoLocal = path.resolve(__dirname, `../uploads/imgs/${archivoName}`);
+
         if (fs.existsSync(pathArchivoLocal)) {
+            //si el archivo existe elimina el archivo
             fs.unlink(pathArchivoLocal);
+
+            //una vez eliminado el archivo se elimina el registro de la DB
+            Img.findByIdAndRemove(archivoId, (err, archivoDel)=>{
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        message: 'Error interno',
+                        err
+                    });
+                }
+                if (!archivoDel) {
+                    return res.status(404).send({
+                        message: 'Data Error: archivo no encontrado',
+                        err
+                    });
+                }
+                return res.status(200).json({
+                    archivo: archivoDel
+                });
+            });
+        }else{
+            return res.status(404).json({
+                ok: false,
+                message: 'No se encontro el archivo'
+            });
         }
     },
 
@@ -82,8 +112,11 @@ var controller = {
     },
 
     getImgs: function (req, res) {
+        let checklist = req.body.checklist;
+        let clave_municipalEx = req.body.clave_municipalEx;
+
         //metodos para query de mongoose: find, findOne, where,
-        Img.find({'clave_municipalEx': '1', 'checklist': 'estimacion-2'}, 'nombre', function (err, result) {
+        Img.find({'clave_municipalEx': clave_municipalEx, 'checklist': checklist}, 'nombre', function (err, result) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error query',
@@ -101,6 +134,7 @@ var controller = {
         let params = req.body;
         let imgReq = params.nombre;
         let imgPath = path.resolve(__dirname, `../uploads/imgs/${imgReq}`);
+
         res.sendFile(imgPath);
     }
 }
