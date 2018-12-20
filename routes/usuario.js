@@ -1,7 +1,7 @@
 'use strict'
 var express = require('express');
 var UserController = require('../controllers/usuario');
-const { verificarToken, verificarAdmin } = require('../server/middelwares/autenticacion')
+const { verificarToken, verificarAdmin } = require('../server/middelwares/autenticacion');
 var router = express.Router();
 
 router.post('/saveUser', verificarToken, UserController.saveUser);

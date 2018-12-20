@@ -134,8 +134,12 @@ var controller = {
         let params = req.body;
         let imgReq = params.nombre;
         let imgPath = path.resolve(__dirname, `../uploads/imgs/${imgReq}`);
-
-        res.sendFile(imgPath);
+        if (fs.existsSync(imgPath)) {
+            res.sendFile(imgPath);
+        }else{
+            let noImg = path.resolve(__dirname, `../server/assets/no-image.jpg`);
+            res.sendFile(noImg);
+        }
     }
 }
 

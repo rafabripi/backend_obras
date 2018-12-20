@@ -17,6 +17,7 @@ let verificarToken = (req, res, next) => {
     });
 }
 
+//verficar que el usuario sea administrador
 let verificarAdmin = (req, res, next) => {
     let typeUser = req.usuario.tipo;
     if (typeUser === 'Administrador') {
@@ -28,4 +29,21 @@ let verificarAdmin = (req, res, next) => {
     }
 }
 
-module.exports = {verificarToken, verificarAdmin};
+//verificar token en el URL de la imagen
+let verficarImgToken = (req, res, next) => {
+    let token = req.query.token;
+    
+    jwt.verify(token, process.env.SEED, (err , decoded)=>{
+        if (err) {
+            return res.status(401).json({
+                ok: false,
+                message: 'Error token no valido',
+                err
+            });
+        }
+        req.usuario = decoded.usuario;
+        next();
+    });
+}
+
+module.exports = {verificarToken, verificarAdmin, verficarImgToken};
