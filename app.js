@@ -9,7 +9,9 @@ const app = express();
 var usuario_routes = require('./routes/usuario');
 var pdf_routes = require('./routes/pdf');
 var img_routes = require('./routes/fotos_avances');
-var obra_rutas = require('./routes/obras');
+var obra_routes = require('./routes/obras');
+var avance_routes = require('./routes/avance_obras');
+var contratista_routes = require('./routes/contratistas');
 
 // middlewares
 app.use(bodyParser.urlencoded({extended:false}));
@@ -28,7 +30,9 @@ app.use((req, res, next) => {
 app.use('/usuario', usuario_routes);
 app.use('/pdf', pdf_routes);
 app.use('/img', img_routes);
-app.use('/obra', obra_rutas);
+app.use('/obra', obra_routes);
+app.use('/avance', avance_routes);
+app.use('/contratista', contratista_routes);
 
 // exportar
 module.exports = app;

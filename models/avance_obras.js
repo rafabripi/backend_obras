@@ -3,11 +3,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var AvanceSchema = Schema({
-    clave_municipalEx: String,
-    fecha: Date,
-    avance: String,
+    clave_municipalEx: {type: String, required: true},
+    fecha: {type: Date, required: true},
+    avance: {type: String, required: true},
     comentarios: String
 });
 
-module.exports = mongoose.model('Avance_obra', AvanceSchema);
-//Clase219 crear modelos
+module.exports = mongoose.model('Avances_obra', AvanceSchema);

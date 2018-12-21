@@ -1,9 +1,10 @@
 'use strict'
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var uniqueValidator = require('mongoose-unique-validator');
 
 var ContratistasSchema = Schema({
-    razon_social: String,
+    razon_social: {type: String, required: [true, 'Razón social requerida'], unique: true},
     representante: String,
     estado: String,
     ciudad: String,
@@ -12,10 +13,11 @@ var ContratistasSchema = Schema({
     calle: String,
     numero: String,
     numero_int: String,
-    rfc: String,
+    rfc: {type: String, required: [true, 'El RFC es requerido']},
     telefono: String,
     contacto: String
 });
 
+ContratistasSchema.plugin(uniqueValidator, {message: '{PATH} Este campo debe ser unico'});
 module.exports = mongoose.model('Contratista', ContratistasSchema);
 //Clase219 crear modelos
