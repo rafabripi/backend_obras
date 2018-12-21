@@ -44,13 +44,14 @@ var controller = {
         });
     },
 
-    updateObra: function (req, res) {
-        let id= req.body.id;
-        let update = req.body;
+    updateObra: function (req, res) {        
+        let obraId= req.params.id;
+        let update = _.pick(req.body,
+            [ 'nombre_obra', 'meta', 'beneficiarios_directos', 'supervisor', 'estado']);
         //en el reques podemos obtener informacion del usuario
         //console.log(req.usuario.tipo);
 
-        Obra.findByIdAndUpdate(id, update, {new: true, runValidators: true}, (err, resObraUpdate)=>{
+        Obra.findByIdAndUpdate(obraId, update, {new: true, runValidators: true}, (err, resObraUpdate)=>{
             if (err) {
                 return res.status(500).send({
                     message: "Error interno",
