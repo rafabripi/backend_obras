@@ -16,7 +16,7 @@
     "express": "^4.16.4",
     "express-fileupload": "^1.0.0",
     "jsonwebtoken": "^8.4.0",
-    "mongoose": "^5.3.14",
+    "mongoose": "^5.4.0",
     "mongoose-unique-validator": "^2.0.2",
     "underscore": "^1.9.1"
   },
