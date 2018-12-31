@@ -12,6 +12,7 @@ var img_routes = require('./routes/fotos_avances');
 var obra_routes = require('./routes/obras');
 var avance_routes = require('./routes/avance_obras');
 var contratista_routes = require('./routes/contratistas');
+var pago_routes = require ('./routes/pagos');
 
 // middlewares
 app.use(bodyParser.urlencoded({extended:false}));
@@ -33,6 +34,7 @@ app.use('/img', img_routes);
 app.use('/obra', obra_routes);
 app.use('/avance', avance_routes);
 app.use('/contratista', contratista_routes);
+app.use('/pago', pago_routes);
 
 // exportar
 module.exports = app;
