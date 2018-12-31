@@ -8,6 +8,7 @@ var UsuariosSchema = Schema({
     nombre: String,
     apellidos: String,
     pass: {type: String, required: [true, 'Contraseña requerida']},
+    correo: String,
     tipo: {type: String, default: 'Normal', enum: {values:['Normal', 'Administrador'], message: '{VALUE} NO es un tipo valido'}},
     estado: {type: Boolean, default: true}
 });

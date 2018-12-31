@@ -13,6 +13,7 @@ var controller = {
             nombre : params.nombre,
             apellidos : params.apellidos,
             pass : bcrypt.hashSync(params.pass, 10),
+            correo : params.correo, 
             tipo : params.tipo
         });
         

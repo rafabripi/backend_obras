@@ -44,7 +44,7 @@ var controller = {
         });
     },
 
-    updateObra: function (req, res) {        
+    updateObra: function (req, res) {
         let obraId= req.params.id;
         let update = _.pick(req.body,
             [ 'nombre_obra', 'meta', 'beneficiarios_directos', 'supervisor', 'estado']);
@@ -67,6 +67,28 @@ var controller = {
             }
             return res.status(200).send({
                 obra: resObraUpdate
+            });
+        });
+    },
+
+    getObras: function(req, res) {
+        Obra.find()
+        .exec((err, obras)=>{
+            if (err) {
+                return res.status(500).send({
+                    message: "Error interno"
+                });
+            }
+            if (!obras) {
+                return res.status(404).send({
+                    message: "obras no encontrados"
+                });
+            }
+            Obra.countDocuments({estado: true}, (err, result)=>{
+                if (err) {
+                    return res.status(500).json({message: 'El conteo fallo'});
+                }
+                return res.status(200).send({obras, conteo: result});
             });
         });
     }
