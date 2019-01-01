@@ -71,6 +71,20 @@ var controller = {
         });
     },
 
+    getObra: function (req, res) {
+      let idObra = req.params.id;
+      
+      Obra.findById(idObra, (err, obra)=>{
+        if (err) {
+            return res.status(500).send({message: 'Error interno'});
+        }
+        if (!obra) {
+            return res.status(404).send({message: 'No se encontro'});
+        }
+        return res.status(200).send({obra});
+      });
+    },
+
     getObras: function(req, res) {
         Obra.find()
         .exec((err, obras)=>{

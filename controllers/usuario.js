@@ -41,7 +41,7 @@ var controller = {
                 return res.status(500).send({message: 'Error interno'});
             }
             if (!usuario) {
-                return res.status(404).send({message: 'Error interno'});
+                return res.status(404).send({message: 'No se encontro'});
             }
             return res.status(200).send({usuario});
         });
