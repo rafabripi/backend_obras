@@ -17,7 +17,8 @@ var ObrasSchema = Schema({
     programa: String,
     inversion_aprobada: Number,
     contratista: String,
-    estado: {type: String, required: [true, 'El estado de la obra es un campo requerido']}
+    estado: {type: String, required: [true, 'El estado de la obra es un campo requerido']},
+    nota: String
 });
 
 ObrasSchema.plugin(uniqueValidator, {message: '{PATH} Este campo debe ser unico'});
