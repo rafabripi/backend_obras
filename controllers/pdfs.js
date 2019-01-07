@@ -21,7 +21,7 @@ var controller = {
                     });
                 }
                 if (!archivoDel) {
-                    return res.status(404).send({
+                    return res.status(404).json({
                         message: 'Data Error: archivo no encontrado',
                         err
                     });
@@ -87,18 +87,18 @@ var controller = {
 
             pdf.save((err, pdfStored)=>{
                 if (err) {
-                    return res.status(500).send({
+                    return res.status(500).json({
                         message: "Error interno",
                         err
                     });
                 }
                 if (!pdfStored) {
                     controller.borrarArchivo(pdfStored.nombre);
-                    return res.status(404).send({
+                    return res.status(404).json({
                         message: "Data error"
                     });
                 }
-                res.status(200).json({
+                res.status(201).json({
                     ok: true,
                     message: 'File uploaded!',
                     pdf: pdf

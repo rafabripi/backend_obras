@@ -21,17 +21,17 @@ var controller = {
 
         contratista.save((err, contratistaStored)=>{
             if (err) {
-                return res.status(500).send({
+                return res.status(500).json({
                     message: "Error, no se guardo el contratista",
                     err
                 });
             }
             if (!contratistaStored) {
-                return res.status(404).send({
+                return res.status(404).json({
                     message: "Error data not found"
                 });  
             }
-            return res.status(200).send({
+            return res.status(201).json({
                 contratista: contratistaStored
             }); 
         });

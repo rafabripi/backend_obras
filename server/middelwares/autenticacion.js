@@ -12,6 +12,8 @@ let verificarToken = (req, res, next) => {
                 err
             });
         }
+        // req.usuario permitira que el controlador de cada ruta donde usemos este middelware
+        // recuperar la informacion del usuario que realizo la peticion.
         req.usuario = decoded.usuario;
         next();
     });

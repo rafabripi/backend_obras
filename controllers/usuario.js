@@ -19,17 +19,17 @@ var controller = {
         
         usuario.save((err, usuarioStored)=>{
             if (err) {
-                return res.status(500).send({
+                return res.status(500).json({
                     message: "Error, no se guardo el usuario",
                     err
                 });
             }
             if (!usuarioStored) {
-                return res.status(404).send({
+                return res.status(404).json({
                     message: "Error data not found"
                 });  
             }
-            return res.status(200).send({
+            return res.status(201).json({
                 usuario: usuario
             });   
         });
@@ -38,12 +38,17 @@ var controller = {
         let usuarioId = req.params.id;
         Usuario.findById(usuarioId, (err, usuario)=>{
             if (err) {
-                return res.status(500).send({message: 'Error interno'});
+                return res.status(500).json({message: 'Error interno'});
             }
             if (!usuario) {
-                return res.status(404).send({message: 'No se encontro'});
+                return res.status(404).json({message: 'No se encontro'});
             }
-            return res.status(200).send({usuario});
+            return res.status(200).json({
+                ok: true,
+                usuario,
+                //el req.usuario nos regresa la informacion del usuario que realizo la peticion
+                usuarioToken: req.usuario
+            });
         });
     },
     getUsers: function (req, res) {
@@ -64,12 +69,12 @@ var controller = {
                     .limit(end)
                     .exec((err, usuarios)=>{
                         if (err) {
-                            return res.status(500).send({
+                            return res.status(500).json({
                                 message: "Error interno"
                             });
                         }
                         if (!usuarios) {
-                            return res.status(404).send({
+                            return res.status(404).json({
                                 message: "usuarios no encontrados"
                             });
                         }
@@ -77,7 +82,7 @@ var controller = {
                             if (err) {
                                 return res.status(500).json({message: 'El conteo fallo'});
                             }
-                            return res.status(200).send({usuarios, conteo: result});
+                            return res.status(200).json({usuarios, conteo: result});
                         });
                     });
     },
@@ -87,8 +92,8 @@ var controller = {
 
         Usuario.findByIdAndUpdate(usuarioId, update, {new: true, runValidators: true}, (err, usuarioUpdate)=>{
             if (err) {
-               return res.status(500).send({
-                message: "Error interno",
+               return res.status(500).json({
+                message: "Error interno al buscar usuario",
                 err
                });
             }
@@ -98,7 +103,7 @@ var controller = {
                 });
             }
             
-            return res.status(200).send({
+            return res.status(200).json({
                 usuario: usuarioUpdate
             });
         });
@@ -107,18 +112,18 @@ var controller = {
         let usuarioId = req.params.id;
         Usuario.findByIdAndRemove(usuarioId, (err, usuarioDelete)=>{
             if (err) {
-                return res.status(500).send({
+                return res.status(500).json({
                     message: 'Error interno',
                     err
                 });
             }
             if (!usuarioDelete) {
-                return res.status(404).send({
+                return res.status(404).json({
                     message: 'Data Error: usuario no encontrado',
                     err
                 });
             }
-            return res.status(200).send({
+            return res.status(200).json({
                 usuario: usuarioDelete
             });
         });
@@ -129,7 +134,7 @@ var controller = {
 
         Usuario.findByIdAndUpdate(userId, update, {new: true, runValidators: true}, (err, usuarioUpdate)=>{
             if (err) {
-               return res.status(500).send({
+               return res.status(500).json({
                 message: "Error interno",
                 err
                });
@@ -140,7 +145,7 @@ var controller = {
                     err
                 });
             }
-            return res.status(200).send({
+            return res.status(200).json({
                 usuario: usuarioUpdate
             });
         });
@@ -157,14 +162,12 @@ var controller = {
             }
             if (!usuarioDB) {
                 return res.status(404).json({
-                    message: 'Data error: usuario no encontrado',
-                    err
+                    message: 'Data error: credenciales invalidas'
                 });
             }
             if (!bcrypt.compareSync(userData.pass, usuarioDB.pass)) {
                 return res.status(404).json({
-                    message: 'Data error: pass no encontrado',
-                    err
+                    message: 'Data error: credenciales invalidas'
                 })
             }
 
@@ -177,6 +180,7 @@ var controller = {
             return res.status(200).json({
                 ok: true,
                 usuario: usuarioDB,
+                id: usuarioDB._id,
                 token
             });
         });

@@ -38,7 +38,7 @@ var controller = {
                     message: 'No se encontro el elemento a guardar'
                 });
             }
-            return res.status(200).json({
+            return res.status(201).json({
                 ok: true,
                 obra: obra
             });
@@ -54,7 +54,7 @@ var controller = {
 
         Obra.findByIdAndUpdate(obraId, update, {new: true, runValidators: true}, (err, resObraUpdate)=>{
             if (err) {
-                return res.status(500).send({
+                return res.status(500).json({
                     message: "Error interno",
                     err
                 });            
@@ -66,7 +66,7 @@ var controller = {
                     data: resObraUpdate
                 });
             }
-            return res.status(200).send({
+            return res.status(200).json({
                 obra: resObraUpdate
             });
         });
@@ -77,12 +77,12 @@ var controller = {
       
       Obra.findById(idObra, (err, obra)=>{
         if (err) {
-            return res.status(500).send({message: 'Error interno'});
+            return res.status(500).json({message: 'Error interno'});
         }
         if (!obra) {
-            return res.status(404).send({message: 'No se encontro'});
+            return res.status(404).json({message: 'No se encontro'});
         }
-        return res.status(200).send({obra});
+        return res.status(200).json({obra});
       });
     },
 
@@ -90,12 +90,12 @@ var controller = {
         Obra.find()
         .exec((err, obras)=>{
             if (err) {
-                return res.status(500).send({
+                return res.status(500).json({
                     message: "Error interno"
                 });
             }
             if (!obras) {
-                return res.status(404).send({
+                return res.status(404).json({
                     message: "obras no encontrados"
                 });
             }
@@ -103,7 +103,7 @@ var controller = {
                 if (err) {
                     return res.status(500).json({message: 'El conteo fallo'});
                 }
-                return res.status(200).send({obras, conteo: result});
+                return res.status(200).json({obras, conteo: result});
             });
         });
     }

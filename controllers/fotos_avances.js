@@ -24,7 +24,7 @@ var controller = {
                     });
                 }
                 if (!archivoDel) {
-                    return res.status(404).send({
+                    return res.status(404).json({
                         message: 'Data Error: archivo no encontrado',
                         err
                     });
@@ -91,18 +91,18 @@ var controller = {
 
             img.save((err, imgStored)=>{
                 if (err) {
-                    return res.status(500).send({
+                    return res.status(500).json({
                         message: "Error interno",
                         err
                     });
                 }
                 if (!imgStored) {
                     controller.borrarArchivo(imgStored.nombre);
-                    return res.status(404).send({
+                    return res.status(404).json({
                         message: "Data error"
                     });
                 }
-                res.status(200).json({
+                res.status(201).json({
                     ok: true,
                     message: 'File uploaded',
                     img: img
@@ -135,10 +135,10 @@ var controller = {
         let imgReq = params.nombre;
         let imgPath = path.resolve(__dirname, `../uploads/imgs/${imgReq}`);
         if (fs.existsSync(imgPath)) {
-            res.sendFile(imgPath);
+            res.jsonFile(imgPath);
         }else{
             let noImg = path.resolve(__dirname, `../server/assets/no-image.jpg`);
-            res.sendFile(noImg);
+            res.jsonFile(noImg);
         }
     }
 }
