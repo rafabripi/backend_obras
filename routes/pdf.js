@@ -6,7 +6,7 @@ const { verificarToken } = require('../server/middelwares/autenticacion');
 
 //middelware de subida de archivos
 const fileUpload = require('express-fileupload');
-var fileUploadMiddleware = fileUpload()
+var fileUploadMiddleware = fileUpload();
 
 //se probara si funciona mandar dos middelware en un arreglo
 router.put('/savePdf', [verificarToken, fileUploadMiddleware], PdfController.savePdf);

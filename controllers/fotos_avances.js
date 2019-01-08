@@ -54,7 +54,7 @@ var controller = {
         
         let imgUp = req.files.archivo;
         let imgNameSplit = imgUp.name.split('.');
-        let imgExt = imgNameSplit[1].toLowerCase();
+        let imgExt = imgNameSplit[(imgNameSplit.length -1)].toLowerCase();
         let extValidas = ['jpg', 'jpeg', 'png', 'gif'];
 
         if (extValidas.indexOf(imgExt) < 0) {

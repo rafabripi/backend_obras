@@ -7,9 +7,9 @@ var controller = {
     delFile: function (req, res) {
         let params = req.body;
         let archivoName = params.nombre;
-        let pathArchivoLocal = path.resolve(__dirname, `../uploads/pdfs/${archivoName}`)
+        let pathArchivoLocal = path.resolve(__dirname, `../uploads/pdfs/${archivoName}`);
         if (fs.existsSync(pathArchivoLocal)) {
-            //si el archivo existe elimina el archivo
+            //si el archivo existe lo elimina 
             fs.unlink(pathArchivoLocal);
 
             Pdfs.findByIdAndRemove(archivoId, (err, archivoDel)=>{
@@ -51,7 +51,7 @@ var controller = {
 
         let pdfUp = req.files.archivo;        
         let pdfNameSplit = pdfUp.name.split('.');
-        let pdfExt = pdfNameSplit[1];
+        let pdfExt = pdfNameSplit[(pdfNameSplit.length -1)];
         let extValidas = ['pdf', 'PDF'];
 
         if (extValidas.indexOf(pdfExt) < 0 ) {
