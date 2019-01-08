@@ -9,7 +9,9 @@ var controller = {
             folio: params.folio,
             fecha: params.fecha,
             cantidad: params.cantidad,
-            tipo_pago: params.tipo_pago
+            tipo_pago: params.tipo_pago,
+            clave_municipalExt: params.clave_municipalExt,
+            usuarioQuery: params.usuarioQuery
         });
 
         pago.save((err, pagoStored)=>{
