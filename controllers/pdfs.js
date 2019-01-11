@@ -66,9 +66,8 @@ var controller = {
 
         //ajustar nombre de clave municipal: Se reemplazan las diagonales por guion medio
         //debido a que produce errores al guardar el pdf
-        let nombrePdf_claveM = params.clave_municipalEx.replace('/', '-');
 
-        let newName = `${nombrePdf_claveM}-${params.tipo_checklist}.${pdfExt}`
+        let newName = `${params.obraId}-${params.tipo_checklist}.${pdfExt}`
 
         pdfUp.mv(`uploads/pdfs/${newName}`, (err) => {
             if (err){
@@ -83,7 +82,8 @@ var controller = {
             pdf.nombre = newName;
             pdf.tipo_checklist = params.tipo_checklist;
             pdf.numero_contrato = params.numero_contrato;
-            pdf.clave_municipalEx = params.clave_municipalEx;
+            pdf.obraId = params.obraId;
+            pdf.usuarioQuery = params.usuarioQuery;
 
             pdf.save((err, pdfStored)=>{
                 if (err) {

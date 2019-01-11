@@ -14,7 +14,8 @@ var controller = {
             apellidos : params.apellidos,
             pass : bcrypt.hashSync(params.pass, 10),
             correo : params.correo, 
-            tipo : params.tipo
+            tipo : params.tipo,
+            usuarioQuery : params.usuarioQuery
         });
         
         usuario.save((err, usuarioStored)=>{

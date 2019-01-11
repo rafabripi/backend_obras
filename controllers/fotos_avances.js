@@ -6,6 +6,7 @@ const path = require ('path');
 var controller = {
     delFile: function (req, res) {
         let params = req.body;
+        
         let archivoName = params.nombre;
         let archivoId= params.id;
         let pathArchivoLocal = path.resolve(__dirname, `../uploads/imgs/${archivoName}`);
@@ -69,10 +70,9 @@ var controller = {
 
         //ajustar nombre de clave municipal: Se reemplazan las diagonales por guion medio
         //debido a que produce errores al guardar el pdf
-        let nombreImg_ClaveM = params.clave_municipalEx.replace('/', '-');
         let nombreImg_CheckL = params.checklist.replace('/', '-');
 
-        let newName = `${nombreImg_ClaveM}-${nombreImg_CheckL}-${ new Date().getMilliseconds()}.${imgExt}`
+        let newName = `${params.obraId}-${nombreImg_CheckL}-${ new Date().getMilliseconds()}.${imgExt}`
 
         imgUp.mv(`uploads/imgs/${newName}`, (err)=>{
             if (err) {
@@ -87,7 +87,8 @@ var controller = {
             img.nombre = newName;
             img.fecha = params.fecha;
             img.checklist = params.checklist;
-            img.clave_municipalEx = params.clave_municipalEx;
+            img.obraId = params.obraId;
+            img.usuarioQuery = params.usuarioQuery;
 
             img.save((err, imgStored)=>{
                 if (err) {

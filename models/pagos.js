@@ -8,7 +8,7 @@ var PagosSchema = Schema({
     fecha: {type: Date, required: [true, 'fecha  es un campo requerido']},
     cantidad: {type: Number, required: [true, 'cantidad  es un campo requerido']},
     tipo_pago: String,
-    clave_municipalExt: {type: Schema.Types.ObjectId,ref:'Obra', required: true},
+    obraId: {type: Schema.Types.ObjectId,ref:'Obra', required: true},
     usuarioQuery:  {type: Schema.Types.ObjectId,ref:'Usuario', required: true}
 });
 

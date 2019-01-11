@@ -15,7 +15,8 @@ var ContratistasSchema = Schema({
     numero_int: String,
     rfc: {type: String, required: [true, 'El RFC es requerido']},
     telefono: String,
-    contacto: String
+    contacto: String,
+    usuarioQuery:  {type: Schema.Types.ObjectId,ref:'Usuario', required: true}
 });
 
 ContratistasSchema.plugin(uniqueValidator, {message: '{PATH} Este campo debe ser unico'});

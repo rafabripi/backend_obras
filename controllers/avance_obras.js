@@ -5,10 +5,11 @@ var controller = {
     saveAvance: function (req, res) {
         let params = req.body;
         let avance = new Avance({
-            clave_municipalEx: params.clave_municipalEx,
             fecha: params.fecha,
             avance: params.avance,
-            comentarios: params.comentarios
+            comentarios: params.comentarios,
+            obraId: params.obraId,
+            usuarioQuery: params.usuarioQuery
         });
 
         avance.save((err, avanceStored)=>{

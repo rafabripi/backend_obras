@@ -17,7 +17,8 @@ var UsuariosSchema = Schema({
     correo: String,
     // en enum se determina cuales seran los valores que se pueden guardar (Normal y Administrador)
     tipo: {type: String, required:[true, 'Tipo de usuario'], default: 'Normal', enum: tiposValidos},
-    estado: {type: Boolean, default: true}
+    estado: {type: Boolean, default: true},
+    usuarioQuery:  {type: Schema.Types.ObjectId,ref:'Usuario', required: true}
 });
 
 //metodo de seguridad para evitar que al regresar la informacion del usuario se muestre la pass.

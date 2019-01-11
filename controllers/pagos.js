@@ -5,12 +5,11 @@ var controller = {
     savePago: function (req, res) {
         let params = req.body;
         let pago = new Pagos({
-            clave_municipalExt: params.clave_municipalExt,
             folio: params.folio,
             fecha: params.fecha,
             cantidad: params.cantidad,
             tipo_pago: params.tipo_pago,
-            clave_municipalExt: params.clave_municipalExt,
+            obraId: params.obraId,
             usuarioQuery: params.usuarioQuery
         });
 

@@ -7,7 +7,8 @@ var FotosSchema = Schema({
     nombre: {type: String, require: true, unique: true},
     fecha: Date,
     checklist: String,
-    clave_municipalEx: String 
+    obraId: {type: Schema.Types.ObjectId,ref:'Obra', required: true},
+    usuarioQuery:  {type: Schema.Types.ObjectId,ref:'Usuario', required: true}
 });
 
 FotosSchema.plugin(uniqueValidator, {message: 'El archivo ya existe!'});
