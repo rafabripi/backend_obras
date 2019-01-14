@@ -31,9 +31,9 @@ var controller = {
     },
 
     getAvance: function (req, res) {
-        let avanceId = req.params.id;
+        let obraId = req.params.id;
 
-        Avance.findById(avanceId, (err, avanceDB) => {
+        Avance.find( {obraId: obraId}, null, {sort: {fecha: -1}, limit: 1 }, (err, avanceDB) => {
             if (err) {
                 return res.status(500).json({message: 'Error interno'});
             }
