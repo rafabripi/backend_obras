@@ -88,7 +88,7 @@ var controller = {
             img.fecha = params.fecha;
             img.checklist = params.checklist;
             img.obraId = params.obraId;
-            img.usuarioQuery = params.usuarioQuery;
+            img.usuarioQuery = req.usuario;
 
             img.save((err, imgStored)=>{
                 if (err) {

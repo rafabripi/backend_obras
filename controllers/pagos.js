@@ -10,7 +10,7 @@ var controller = {
             cantidad: params.cantidad,
             tipo_pago: params.tipo_pago,
             obraId: params.obraId,
-            usuarioQuery: params.usuarioQuery
+            usuarioQuery : req.usuario
         });
 
         pago.save((err, pagoStored)=>{

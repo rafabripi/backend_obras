@@ -16,7 +16,8 @@ var controller = {
             numero_int: params.numero_int,
             rfc: params.rfc,
             telefono: params.telefono,
-            contacto: params.contacto
+            contacto: params.contacto,
+            usuarioQuery : req.usuario
         });
 
         contratista.save((err, contratistaStored)=>{

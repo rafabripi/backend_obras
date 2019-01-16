@@ -9,7 +9,7 @@ var controller = {
             avance: params.avance,
             comentarios: params.comentarios,
             obraId: params.obraId,
-            usuarioQuery: params.usuarioQuery
+            usuarioQuery : req.usuario
         });
 
         avance.save((err, avanceStored)=>{

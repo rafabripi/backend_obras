@@ -83,7 +83,7 @@ var controller = {
             pdf.tipo_checklist = params.tipo_checklist;
             pdf.numero_contrato = params.numero_contrato;
             pdf.obraId = params.obraId;
-            pdf.usuarioQuery = params.usuarioQuery;
+            pdf.usuarioQuery = req.usuario;
 
             pdf.save((err, pdfStored)=>{
                 if (err) {

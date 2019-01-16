@@ -21,7 +21,8 @@ var controller = {
             inversion_aprobada : params.inversion_aprobada,
             contratista : params.contratista,
             estado : params.estado,
-            nota : params.nota
+            nota : params.nota,
+            usuarioQuery : req.usuario
         });
 
         obra.save((err, obraStored)=>{

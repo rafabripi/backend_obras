@@ -6,7 +6,6 @@ const _= require('underscore');
 
 var controller = {
     saveUser: function (req, res) {
-
         let params = req.body;
         let usuario = new Usuario({
             user : params.user,
@@ -15,7 +14,7 @@ var controller = {
             pass : bcrypt.hashSync(params.pass, 10),
             correo : params.correo, 
             tipo : params.tipo,
-            usuarioQuery : params.usuarioQuery
+            usuarioQuery : req.usuario
         });
         
         usuario.save((err, usuarioStored)=>{
