@@ -113,11 +113,12 @@ var controller = {
     },
 
     getImgs: function (req, res) {
-        let checklist = req.body.checklist;
-        let clave_municipalEx = req.body.clave_municipalEx;
-
+        // Se modifico para usar httpParams en el frontEnd
+        let checklist = req.query.checklist;
+        let obraId = req.query.obraId;
+  
         //metodos para query de mongoose: find, findOne, where,
-        Img.find({'clave_municipalEx': clave_municipalEx, 'checklist': checklist}, 'nombre', function (err, result) {
+        Img.find({'obraId': obraId, 'checklist': checklist}, 'nombre', function (err, result) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error query',
@@ -135,11 +136,11 @@ var controller = {
         let params = req.body;
         let imgReq = params.nombre;
         let imgPath = path.resolve(__dirname, `../uploads/imgs/${imgReq}`);
-        if (fs.existsSync(imgPath)) {
-            res.jsonFile(imgPath);
+        if (fs.existsSync(imgPath)) {            
+            res.sendFile(imgPath);
         }else{
             let noImg = path.resolve(__dirname, `../server/assets/no-image.jpg`);
-            res.jsonFile(noImg);
+            res.sendFile(noImg);
         }
     }
 }
