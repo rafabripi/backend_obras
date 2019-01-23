@@ -133,10 +133,10 @@ var controller = {
     },
 
     getImg: function (req, res) {
-        let params = req.body;
+        let params = req.query;
         let imgReq = params.nombre;
         let imgPath = path.resolve(__dirname, `../uploads/imgs/${imgReq}`);
-        if (fs.existsSync(imgPath)) {            
+        if (fs.existsSync(imgPath)) {
             res.sendFile(imgPath);
         }else{
             let noImg = path.resolve(__dirname, `../server/assets/no-image.jpg`);
