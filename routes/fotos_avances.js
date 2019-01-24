@@ -8,10 +8,10 @@ var router = express.Router();
 const fileUpload = require('express-fileupload');
 var fileUploadMiddleware = fileUpload();
 
-//se probara si funciona mandar dos middelware en un arreglo 
+// Poner token en get de imagenes  
 router.put('/saveImg', [fileUploadMiddleware, verificarToken], imgController.saveImg);
 router.get('/getImgs', verificarToken, imgController.getImgs);
-router.get('/getImg', verificarToken, imgController.getImg);
+router.get('/getImg', imgController.getImg);
 router.delete('/delFile/:nombre', verificarToken, imgController.delFile);
 
 module.exports = router;
