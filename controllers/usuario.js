@@ -54,7 +54,7 @@ var controller = {
     getUsers: function (req, res) {
         let being = req.query.being || 0;
         being = Number (being);
-        let end = req.query.end || 5;
+        let end = req.query.end || 10;
         end = Number(end);
         /**
         *con el metodo find podemos hacer consultar como con where
@@ -64,7 +64,7 @@ var controller = {
         *---------------------------------------
         *el metodo short ordena la consulta
          */
-        Usuario.find({estado: true}, 'nombre apellidos tipo')
+        Usuario.find({}, 'usuario nombre apellidos tipo correo estado')
                     .skip(being)
                     .limit(end)
                     .exec((err, usuarios)=>{
