@@ -64,7 +64,8 @@ var controller = {
         *---------------------------------------
         *el metodo short ordena la consulta
          */
-        Usuario.find({}, 'user usuario nombre apellidos tipo correo estado')
+        Usuario.find({ tipo: { $ne: 'Desarrollador' } }, 'user usuario nombre apellidos tipo correo estado')
+                    .sort({ estado: -1 })
                     .skip(being)
                     .limit(end)
                     .exec((err, usuarios)=>{
