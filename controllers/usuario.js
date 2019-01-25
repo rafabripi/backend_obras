@@ -64,7 +64,7 @@ var controller = {
         *---------------------------------------
         *el metodo short ordena la consulta
          */
-        Usuario.find({}, 'usuario nombre apellidos tipo correo estado')
+        Usuario.find({}, 'user usuario nombre apellidos tipo correo estado')
                     .skip(being)
                     .limit(end)
                     .exec((err, usuarios)=>{
@@ -88,7 +88,7 @@ var controller = {
     },
     updateUser: function (req, res) {
         let usuarioId = req.params.id;
-        let update = _.pick(req.body, ['tipo']);
+        let update = _.pick(req.body, ['nombre', 'apellidos', 'correo', 'tipo']);
 
         Usuario.findByIdAndUpdate(usuarioId, update, {new: true, runValidators: true}, (err, usuarioUpdate)=>{
             if (err) {
