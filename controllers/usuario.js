@@ -89,7 +89,7 @@ var controller = {
     },
     updateUser: function (req, res) {
         let usuarioId = req.params.id;
-        let update = _.pick(req.body, ['nombre', 'apellidos', 'correo', 'tipo']);
+        let update = _.pick(req.body, ['nombre', 'apellidos', 'correo', 'tipo', 'estado']);
 
         Usuario.findByIdAndUpdate(usuarioId, update, {new: true, runValidators: true}, (err, usuarioUpdate)=>{
             if (err) {
@@ -129,6 +129,7 @@ var controller = {
             });
         });
     },
+    // No se esta usando el siguiente metodo; en su lugar se usa el updateUser
     desactivedUser: function (req, res) {
         let userId = req.params.id;
         let update = _.pick(req.body, ['estado']);        
@@ -164,6 +165,11 @@ var controller = {
             if (!usuarioDB) {
                 return res.status(404).json({
                     message: 'Data error: credenciales invalidas'
+                });
+            }
+            if (!usuarioDB.estado) {
+                return res.status(401).json({
+                    message: 'Usuario desactivado'
                 });
             }
             if (!bcrypt.compareSync(userData.pass, usuarioDB.pass)) {

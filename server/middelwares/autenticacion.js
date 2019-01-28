@@ -22,7 +22,7 @@ let verificarToken = (req, res, next) => {
 //verficar que el usuario sea administrador
 let verificarAdmin = (req, res, next) => {
     let typeUser = req.usuario.tipo;
-    if (typeUser === 'Administrador') {
+    if (typeUser === 'Administrador' || 'Desarrollador') {
         next();
     }else{
         return res.status(403).json({
