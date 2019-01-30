@@ -110,7 +110,7 @@ var controller = {
     },
 
     busquedaObra: function (req, res) {
-        var busqueda = req.body.query;
+        var busqueda = req.params.id;        
         var reg = new RegExp( busqueda, 'i' );
         Obra.find({ $or: [{clave_municipal: reg}, {nombre_obra: reg}] }, (err, obras)=> {
             res.status(200).json({

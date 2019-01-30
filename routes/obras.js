@@ -9,6 +9,6 @@ router.post('/saveObra',verificarToken, obraController.saveObra);
 router.put('/updateObra/:id', verificarToken, obraController.updateObra);
 router.get('/getObras', verificarToken, obraController.getObras);
 router.get('/getObra/:id', verificarToken, obraController.getObra);
-router.post('/busqueda', verificarToken, obraController.busquedaObra);
+router.get('/busqueda/:id', verificarToken, obraController.busquedaObra);
 
 module.exports = router;
