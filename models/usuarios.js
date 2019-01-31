@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 
 // Roles validos o tipos de usuarios validos para la creacion de usuarios
 var tiposValidos = {
-    values:['Normal', 'Administrador'],
+    values:['Normal', 'Administrador', 'Supervisor', 'Egresos', 'Tesorero'],
     message: '{VALUE} NO es un tipo valido'
 }
 

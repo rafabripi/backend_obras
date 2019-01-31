@@ -56,6 +56,7 @@ var controller = {
         being = Number (being);
         let end = req.query.end || 10;
         end = Number(end);
+        let consulta = 'Desarrollador';
         /**
         *con el metodo find podemos hacer consultar como con where
         *por ejemplo Usuario.find({nombre: 'Rafael'})
@@ -64,7 +65,7 @@ var controller = {
         *---------------------------------------
         *el metodo short ordena la consulta
          */
-        Usuario.find({ tipo: { $ne: 'Desarrollador' } }, 'user usuario nombre apellidos tipo correo estado')
+        Usuario.find({ tipo: { $ne: consulta } }, 'user usuario nombre apellidos tipo correo estado')
                     .sort({ estado: -1 })
                     .skip(being)
                     .limit(end)
