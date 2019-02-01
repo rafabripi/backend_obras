@@ -67,8 +67,9 @@ var controller = {
          */
         Usuario.find({ tipo: { $ne: consulta } }, 'user usuario nombre apellidos tipo correo estado')
                     .sort({ estado: -1 })
-                    .skip(being)
-                    .limit(end)
+                    // para paginado de lista
+                    // .skip(being)
+                    // .limit(end)
                     .exec((err, usuarios)=>{
                         if (err) {
                             return res.status(500).json({
@@ -80,13 +81,36 @@ var controller = {
                                 message: "usuarios no encontrados"
                             });
                         }
-                        Usuario.countDocuments({estado: true}, (err, result)=>{
+                        Usuario.countDocuments({tipo: { $ne: consulta }}, (err, result)=>{
                             if (err) {
                                 return res.status(500).json({message: 'El conteo fallo'});
                             }
                             return res.status(200).json({usuarios, conteo: result});
                         });
                     });
+    },
+    getSupervisores: function (req, res) {
+      Usuario.find({tipo: 'Supervisor', estado: true}, 'nombre')
+        .exec( (err, usuarios) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    message: "Error interno"
+                });
+            }
+            if (!usuarios) {
+                return res.status(404).json({
+                    ok: false,
+                    message: "Supervisores no escontrados"
+                });
+            }
+            Usuario.countDocuments({tipo: 'Supervisor', estado: true}, (err, result)=>{
+                if (err) {
+                    return res.status(500).json({message: 'El conteo fallo'});
+                }
+                return res.status(200).json({usuarios, conteo: result});
+            });
+        } );
     },
     updateUser: function (req, res) {
         let usuarioId = req.params.id;

@@ -10,6 +10,7 @@ router.get('/getUsers', [verificarToken, verificarAdmin], UserController.getUser
 router.put('/updateUser/:id', verificarToken, UserController.updateUser);
 router.delete('/deleteUser/:id', verificarToken, UserController.deleteUser);
 router.put('/desactivedUser/:id', verificarToken, UserController.desactivedUser);
+router.get('/getSupervisores', verificarToken, UserController.getSupervisores);
 router.post('/login', UserController.login);
 
 module.exports = router;
