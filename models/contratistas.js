@@ -21,4 +21,3 @@ var ContratistasSchema = Schema({
 
 ContratistasSchema.plugin(uniqueValidator, {message: '{PATH} Este campo debe ser unico'});
 module.exports = mongoose.model('Contratista', ContratistasSchema);
-//Clase219 crear modelos

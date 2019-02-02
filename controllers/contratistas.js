@@ -36,6 +36,63 @@ var controller = {
                 contratista: contratistaStored
             }); 
         });
+    },
+    getContratistas: function (req, res) {
+        Contratista.find((err, contratistas) => {
+            if (err) {
+                return res.status(500).json({
+                    message: "Error interno"
+                });
+            }
+            if (!contratistas) {
+                return res.status(404).json({
+                    message: "Contratistas no encontrados"
+                });
+            }
+            Contratista.countDocuments((err, result)=>{
+                if (err) {
+                    return res.status(500).json({message: 'El conteo fallo'});
+                }
+                return res.status(200).json({contratistas, conteo: result});
+            });
+        });
+    },
+    getContratista: function (req, res) {
+        let contratistaId = req.params.id;
+        Contratista.findById(contratistaId, (err, contratista)=> {
+            if (err) {
+                return res.status(500).json({message: 'Error interno'});
+            }
+            if (!contratista) {
+                return res.status(404).json({message: 'No se encontro'});
+            }
+            return res.status(200).json({
+                ok: true,
+                contratista
+            });
+        });
+    },
+    updateContratista: function (req, res) {
+        let contratistaId = req.params.id;
+        let update = req.body;
+
+        Contratista.findByIdAndUpdate(contratistaId, update, {new: true}, (err, contratista)=> {
+            if (err) {
+                return res.status(500).json({
+                 message: "Error interno al buscar contratista",
+                 err
+                });
+             }
+             if (!contratista) {
+                 return res.status(404).json({
+                     message: "Data error"
+                 });
+             }
+             
+             return res.status(200).json({
+                contratista: contratista
+             });
+        });
     }
 }
 
