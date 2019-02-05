@@ -88,8 +88,7 @@ var controller = {
     },
 
     getObras: function(req, res) {
-        Obra.find()
-        .exec((err, obras)=>{
+        Obra.find((err, obras)=>{
             if (err) {
                 return res.status(500).json({
                     message: "Error interno"
@@ -97,7 +96,29 @@ var controller = {
             }
             if (!obras) {
                 return res.status(404).json({
-                    message: "obras no encontrados"
+                    message: "obras no encontradas"
+                });
+            }
+            Obra.countDocuments({estado: true}, (err, result)=>{
+                if (err) {
+                    return res.status(500).json({message: 'El conteo fallo'});
+                }
+                return res.status(200).json({obras, conteo: result});
+            });
+        });
+    },
+
+    getObraSupervisor: function (req, res) {
+        let supervisor = req.params.supervisor;       
+        Obra.find({supervisor: supervisor}, (err, obras) => {
+            if (err) {
+                return res.status(500).json({
+                    message: "Error interno"
+                });
+            }
+            if (!obras) {
+                return res.status(404).json({
+                    message: "obras no encontradas"
                 });
             }
             Obra.countDocuments({estado: true}, (err, result)=>{
