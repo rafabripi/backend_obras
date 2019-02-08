@@ -5,7 +5,7 @@ var controller = {
     saveAvance: function (req, res) {
         let params = req.body;
         let avance = new Avance({
-            fecha: params.fecha,
+            fecha: new Date(),
             avance: params.avance,
             comentarios: params.comentarios,
             obraId: params.obraId,

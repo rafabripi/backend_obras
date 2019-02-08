@@ -85,7 +85,7 @@ var controller = {
 
             //llenar parametros del modelo con la info que llega del request
             img.nombre = newName;
-            img.fecha = params.fecha;
+            img.fecha = new Date();
             img.checklist = params.checklist;
             img.obraId = params.obraId;
             img.usuarioQuery = req.usuario;
