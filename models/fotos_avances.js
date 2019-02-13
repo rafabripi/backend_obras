@@ -7,6 +7,7 @@ var FotosSchema = Schema({
     nombre: {type: String, require: true, unique: true},
     fecha: Date,
     checklist: String,
+    avanceId: {type: Schema.Types.ObjectId,ref:'AvanceObra', require: true},
     obraId: {type: Schema.Types.ObjectId,ref:'Obra', required: true},
     usuarioQuery:  {type: Schema.Types.ObjectId,ref:'Usuario', required: true}
 });

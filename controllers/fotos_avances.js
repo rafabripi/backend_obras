@@ -87,6 +87,7 @@ var controller = {
             img.nombre = newName;
             img.fecha = new Date();
             img.checklist = params.checklist;
+            img.avanceId = params.avanceId;
             img.obraId = params.obraId;
             img.usuarioQuery = req.usuario;
 
