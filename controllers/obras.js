@@ -88,7 +88,7 @@ var controller = {
     },
 
     getObras: function(req, res) {
-        Obra.find((err, obras)=>{
+        Obra.find( {}, null, {sort:{ _id: -1 }}, (err, obras)=>{
             if (err) {
                 return res.status(500).json({
                     message: "Error interno"
@@ -99,7 +99,7 @@ var controller = {
                     message: "obras no encontradas"
                 });
             }
-            Obra.countDocuments({estado: true}, (err, result)=>{
+            Obra.countDocuments({}, (err, result)=>{
                 if (err) {
                     return res.status(500).json({message: 'El conteo fallo'});
                 }
