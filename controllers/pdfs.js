@@ -80,8 +80,8 @@ var controller = {
 
             //llenar parametros del modelo con la info del request
             pdf.nombre = newName;
-            pdf.tipo_checklist = params.tipo_checklist;
-            pdf.numero_contrato = params.numero_contrato;
+            pdf.fecha = new Date();
+            pdf.checklist = params.checklist;
             pdf.obraId = params.obraId;
             pdf.usuarioQuery = req.usuario;
 

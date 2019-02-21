@@ -5,8 +5,8 @@ var Schema = mongoose.Schema;
 
 var PdfsSchema = Schema({
     nombre: {type: String, require: true, unique: true},
-    tipo_checklist: String,
-    numero_contrato: String,
+    fecha: Date,
+    checklist: String,
     obraId: {type: Schema.Types.ObjectId,ref:'Obra', required: true},
     usuarioQuery:  {type: Schema.Types.ObjectId,ref:'Usuario', required: true}
 });
