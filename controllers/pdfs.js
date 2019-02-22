@@ -1,5 +1,5 @@
 'use strict'
-var Pdfs = require ('../models/pdfs');
+var Pdf = require ('../models/pdf');
 const fs = require ('fs');
 const path = require ('path');
 
@@ -12,7 +12,7 @@ var controller = {
             //si el archivo existe lo elimina 
             fs.unlink(pathArchivoLocal);
 
-            Pdfs.findByIdAndRemove(archivoId, (err, archivoDel)=>{
+            Pdf.findByIdAndRemove(archivoId, (err, archivoDel)=>{
                 if (err) {
                     return res.status(500).json({
                         ok: false,
@@ -39,7 +39,7 @@ var controller = {
     },
 
     savePdf: function (req, res) {
-        let pdf = new Pdfs();
+        let pdf = new Pdf();
         let params = req.body;
 
         if (!req.files) {
@@ -67,7 +67,7 @@ var controller = {
         //ajustar nombre de clave municipal: Se reemplazan las diagonales por guion medio
         //debido a que produce errores al guardar el pdf
 
-        let newName = `${params.obraId}-${params.tipo_checklist}.${pdfExt}`
+        let newName = `${params.obraId}-${params.checklist}.${pdfExt}`
 
         pdfUp.mv(`uploads/pdfs/${newName}`, (err) => {
             if (err){
@@ -105,6 +105,31 @@ var controller = {
                 });
             });
         });
+    },
+
+    getPdfsObra: function (req, res) {
+        let obraId = req.params.id;
+        Pdf.find({obraId: obraId}, 'checklist')
+            .exec( (err, pdfs) => {
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        message: "Error interno"
+                    });
+                }
+                if (!pdfs) {
+                    return res.status(404).json({
+                        ok: false,
+                        message: "Archivos no escontrados"
+                    });
+                }
+                Pdf.countDocuments({obraId: obraId}, (err, result)=>{
+                    if (err) {
+                        return res.status(500).json({message: 'El conteo fallo'});
+                    }
+                    return res.status(200).json({pdfs, conteo: result});
+                });
+            });
     }
 }
 

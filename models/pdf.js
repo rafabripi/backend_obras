@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
 var Schema = mongoose.Schema;
 
-var PdfsSchema = Schema({
+var PdfSchema = Schema({
     nombre: {type: String, require: true, unique: true},
     fecha: Date,
     checklist: String,
@@ -11,5 +11,5 @@ var PdfsSchema = Schema({
     usuarioQuery:  {type: Schema.Types.ObjectId,ref:'Usuario', required: true}
 });
 
-PdfsSchema.plugin(uniqueValidator, {message: 'El archivo ya existe!'});
-module.exports = mongoose.model('Pdf', PdfsSchema);
+PdfSchema.plugin(uniqueValidator, {message: 'El archivo ya existe!'});
+module.exports = mongoose.model('Pdf', PdfSchema);
