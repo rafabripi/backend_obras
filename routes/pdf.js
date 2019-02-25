@@ -12,5 +12,6 @@ var fileUploadMiddleware = fileUpload();
 router.put('/savePdf', [verificarToken, fileUploadMiddleware], PdfController.savePdf);
 router.delete('/delFile/:nombre', verificarToken, PdfController.delFile);
 router.get('/getPdfsObra/:id', verificarToken, PdfController.getPdfsObra);
+router.get('/downloadPdf', verificarToken, PdfController.downloadPdf);
 
 module.exports = router;

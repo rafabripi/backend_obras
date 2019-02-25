@@ -130,6 +130,25 @@ var controller = {
                     return res.status(200).json({pdfs, conteo: result});
                 });
             });
+    },
+
+    downloadPdf: function (req, res) {
+        let params = req.query;
+        let pdfReq = params.nombre;
+        let nombreCheck = pdfReq.split('-');
+        let nombreFin = nombreCheck[1];
+        ///////////Codigo de express 4.16.0 onwards///////////////////
+        let pathArchivoLocal = path.resolve(__dirname, `../uploads/pdfs/${pdfReq}`);
+        // console.log(pathArchivoLocal);
+        res.download(pathArchivoLocal, nombreFin, function (err) {
+            if (err) {
+                console.log('false', err);
+            } else {
+                console.log('ok');
+            }
+        });
+        //////////////////////////////////////////////////////////////
+        
     }
 }
 
