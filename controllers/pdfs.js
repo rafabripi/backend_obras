@@ -5,12 +5,17 @@ const path = require ('path');
 
 var controller = {
     delFile: function (req, res) {
-        let params = req.body;
+        let params = req.query;
         let archivoName = params.nombre;
+        let archivoId= params.id;
+
         let pathArchivoLocal = path.resolve(__dirname, `../uploads/pdfs/${archivoName}`);
         if (fs.existsSync(pathArchivoLocal)) {
             //si el archivo existe lo elimina 
-            fs.unlink(pathArchivoLocal);
+            fs.unlink(pathArchivoLocal, (err) => {
+                if (err) throw err;
+                console.log('file was deleted');
+            });
 
             Pdf.findByIdAndRemove(archivoId, (err, archivoDel)=>{
                 if (err) {
@@ -137,6 +142,7 @@ var controller = {
         let pdfReq = params.nombre;
         let nombreCheck = pdfReq.split('-');
         let nombreFin = nombreCheck[1];
+
         ///////////Codigo de express 4.16.0 onwards///////////////////
         let pathArchivoLocal = path.resolve(__dirname, `../uploads/pdfs/${pdfReq}`);
         // console.log(pathArchivoLocal);

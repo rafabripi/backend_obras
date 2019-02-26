@@ -5,7 +5,7 @@ const path = require ('path');
 
 var controller = {
     delFile: function (req, res) {
-        let params = req.body;
+        let params = req.query;
         
         let archivoName = params.nombre;
         let archivoId= params.id;
@@ -13,7 +13,10 @@ var controller = {
 
         if (fs.existsSync(pathArchivoLocal)) {
             //si el archivo existe elimina el archivo
-            fs.unlink(pathArchivoLocal);
+            fs.unlink(pathArchivoLocal, (err) => {
+                if (err) throw err;
+                console.log('file was deleted');
+            });
 
             //una vez eliminado el archivo se elimina el registro de la DB
             Img.findByIdAndRemove(archivoId, (err, archivoDel)=>{

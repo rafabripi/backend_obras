@@ -12,6 +12,6 @@ var fileUploadMiddleware = fileUpload();
 router.put('/saveImg', [fileUploadMiddleware, verificarToken], imgController.saveImg);
 router.get('/getImgs', verificarToken, imgController.getImgs);
 router.get('/getImg', imgController.getImg);
-router.delete('/delFile/:nombre', verificarToken, imgController.delFile);
+router.delete('/delFile', verificarToken, imgController.delFile);
 
 module.exports = router;
