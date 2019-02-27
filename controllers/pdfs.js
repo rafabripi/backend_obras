@@ -13,8 +13,11 @@ var controller = {
         if (fs.existsSync(pathArchivoLocal)) {
             //si el archivo existe lo elimina 
             fs.unlink(pathArchivoLocal, (err) => {
-                if (err) throw err;
-                console.log('file was deleted');
+                if (err) {
+                    console.log('Error al borrar archivo', err);
+                } else {
+                    console.log('file was deleted');
+                }
             });
 
             Pdf.findByIdAndRemove(archivoId, (err, archivoDel)=>{
@@ -114,7 +117,7 @@ var controller = {
 
     getPdfsObra: function (req, res) {
         let obraId = req.params.id;
-        Pdf.find({obraId: obraId}, 'checklist')
+        Pdf.find({obraId: obraId}, 'checklist nombre')
             .exec( (err, pdfs) => {
                 if (err) {
                     return res.status(500).json({
