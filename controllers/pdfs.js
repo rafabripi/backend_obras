@@ -145,10 +145,12 @@ var controller = {
         let pdfReq = params.nombre;
         let nombreCheck = pdfReq.split('-');
         let nombreFin = nombreCheck[1];
+        let pathArchivoLocal = path.resolve(__dirname, `../uploads/pdfs/${pdfReq}`);
 
         ///////////Codigo de express 4.16.0 onwards///////////////////
-        let pathArchivoLocal = path.resolve(__dirname, `../uploads/pdfs/${pdfReq}`);
-        // console.log(pathArchivoLocal);
+        // res.setHeader('responseType', 'arraybuffer');
+        res.setHeader('Content-type', 'application/pdf');
+        res.setHeader('Content-disposition', `attachment; filename=${nombreFin}`);
         res.download(pathArchivoLocal, nombreFin, function (err) {
             if (err) {
                 console.log('false', err);
@@ -157,7 +159,6 @@ var controller = {
             }
         });
         //////////////////////////////////////////////////////////////
-        
     }
 }
 
