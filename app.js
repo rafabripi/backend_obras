@@ -13,6 +13,7 @@ var obra_routes = require('./routes/obras');
 var avance_routes = require('./routes/avance_obras');
 var contratista_routes = require('./routes/contratistas');
 var pago_routes = require ('./routes/pagos');
+var mail = require('./routes/mail');
 
 // middlewares
 app.use(bodyParser.urlencoded({extended:false}));
@@ -35,6 +36,7 @@ app.use('/obra', obra_routes);
 app.use('/avance', avance_routes);
 app.use('/contratista', contratista_routes);
 app.use('/pago', pago_routes);
+app.use('/mail', mail);
 
 // exportar
 module.exports = app;
